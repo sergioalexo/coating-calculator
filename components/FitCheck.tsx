@@ -11,6 +11,7 @@ type Props = {
 };
 
 const KEYS: (keyof MaxSize)[] = ["W", "H", "L"];
+const KEY_LABELS: Record<keyof MaxSize, string> = { W: "Width", H: "Height", L: "Length" };
 
 export default function FitCheck({ max, onMaxChange, part, onPartChange }: Props) {
   const result = fitsEnvelope(part, max);
@@ -35,7 +36,7 @@ export default function FitCheck({ max, onMaxChange, part, onPartChange }: Props
           <div className="grid grid-cols-3 gap-2">
             {KEYS.map((k) => (
               <label key={k} className="block">
-                <span className="mb-1 block font-mono text-[11px] text-zinc-400">#{k}</span>
+                <span className="mb-1 block text-[11px] text-zinc-300">{KEY_LABELS[k]}</span>
                 <input
                   type="number"
                   value={String(max[k])}
@@ -52,7 +53,7 @@ export default function FitCheck({ max, onMaxChange, part, onPartChange }: Props
           <div className="grid grid-cols-3 gap-2">
             {KEYS.map((k) => (
               <label key={k} className="block">
-                <span className="mb-1 block font-mono text-[11px] text-zinc-400">{k}</span>
+                <span className="mb-1 block text-[11px] text-zinc-300">{KEY_LABELS[k]}</span>
                 <input
                   type="number"
                   value={part[k] ? String(part[k]) : ""}

@@ -23,6 +23,7 @@ export default function Page() {
   const [sqin, setSqin] = useStickyState<number>("pc.sqin", 1000);
   const [coats, setCoats] = useStickyState<number>("pc.coats", 1);
   const [decimals, setDecimals] = useStickyState<number>("pc.decimals", 4);
+  const [showVars, setShowVars] = useStickyState<boolean>("pc.showVars", false);
   const [constants, setConstants] = useStickyState<Constants>("pc.constants", DEFAULT_CONSTANTS);
   const [maxSize, setMaxSize] = useStickyState<MaxSize>("pc.maxSize", DEFAULT_MAX_SIZE);
   const [part, setPart] = useState<MaxSize>({ W: 0, H: 0, L: 0 });
@@ -33,6 +34,7 @@ export default function Page() {
 
   const stainRows = [
     {
+      label: "Stain required",
       name: "GALLONS_OF_STAIN_REQUIRED",
       value: f(r.GALLONS_OF_STAIN_REQUIRED),
       unit: "gal",
@@ -40,18 +42,21 @@ export default function Page() {
       emphasis: true,
     },
     {
+      label: `Pails of stain (${constants.PAIL} gal)`,
       name: "AMOUNT_STAIN_OF_5_GALLON_NEEDED",
       value: f(r.AMOUNT_STAIN_OF_5_GALLON_NEEDED),
       unit: "pails",
       formula: `#GALLONS_OF_STAIN_REQUIRED/${constants.PAIL}`,
     },
     {
+      label: "Cutek Colortone",
       name: "MILLIETERS_OF_CUTEK_COLORTONE_REQUIRED",
       value: f(r.MILLIETERS_OF_CUTEK_COLORTONE_REQUIRED),
       unit: "ml",
       formula: `#GALLONS_OF_STAIN_REQUIRED*${constants.CUTEK_ML_PER_GAL}`,
     },
     {
+      label: "Cutek Colortone",
       name: "LITTERS_OF_CUTEK_COLORTONE_REQUIRED",
       value: f(r.LITTERS_OF_CUTEK_COLORTONE_REQUIRED),
       unit: "L",
@@ -61,6 +66,7 @@ export default function Page() {
 
   const oilRows = [
     {
+      label: "Oil required",
       name: "GALLONS_OF_OIL_REQUIRED",
       value: f(r.GALLONS_OF_OIL_REQUIRED),
       unit: "gal",
@@ -68,6 +74,7 @@ export default function Page() {
       emphasis: true,
     },
     {
+      label: `Pails of oil (${constants.PAIL} gal)`,
       name: "AMOUNT_OIL_OF_5_GALLON_NEEDED",
       value: f(r.AMOUNT_OIL_OF_5_GALLON_NEEDED),
       unit: "pails",
@@ -77,6 +84,7 @@ export default function Page() {
 
   const resystaRows = [
     {
+      label: "Resysta primer",
       name: "TOTAL_OF_RESYSTA_PRIMER",
       value: f(r.RESYSTA_PRIMER_MILLILITERS),
       unit: "ml",
@@ -84,18 +92,21 @@ export default function Page() {
       emphasis: true,
     },
     {
+      label: "Resysta primer",
       name: "RESYSTA_PRIMER_GALLONS",
       value: f(r.RESYSTA_PRIMER_GALLONS),
       unit: "gal",
       formula: `(#SQFT/${constants.RESYSTA_PRIMER_GAL})*#COATS`,
     },
     {
+      label: "Resysta primer",
       name: "RESYSTA_PRIMER_LITERS",
       value: f(r.RESYSTA_PRIMER_LITERS),
       unit: "L",
       formula: "#TOTAL_OF_RESYSTA_PRIMER/1000",
     },
     {
+      label: "Resysta stain",
       name: "TOTAL_OF_RESYSTA_STAIN",
       value: f(r.RESYSTA_STAIN_MILLILITERS),
       unit: "ml",
@@ -103,12 +114,14 @@ export default function Page() {
       emphasis: true,
     },
     {
+      label: "Resysta stain",
       name: "RESYSTA_STAIN_GALLONS",
       value: f(r.RESYSTA_STAIN_GALLONS),
       unit: "gal",
       formula: `(#SQFT/${constants.RESYSTA_STAIN_GAL})*#COATS`,
     },
     {
+      label: "Resysta stain",
       name: "RESYSTA_STAIN_LITERS",
       value: f(r.RESYSTA_STAIN_LITERS),
       unit: "L",
@@ -117,8 +130,21 @@ export default function Page() {
   ];
 
   const powderRows = [
-    { name: "KG", value: f(r.KG), unit: "", formula: "#SQFT/#COVER", emphasis: true },
-    { name: "LBS", value: f(r.LBS), unit: "", formula: "#KG/0.453592" },
+    {
+      label: "Powder — Onshape #KG",
+      name: "KG",
+      value: f(r.KG),
+      unit: "",
+      formula: "#SQFT/#COVER",
+      emphasis: true,
+    },
+    {
+      label: "Powder — Onshape #LBS",
+      name: "LBS",
+      value: f(r.LBS),
+      unit: "",
+      formula: "#KG/0.453592",
+    },
   ];
 
   const allText = [
@@ -161,6 +187,19 @@ export default function Page() {
               ))}
             </select>
           </label>
+          <button
+            type="button"
+            onClick={() => setShowVars(!showVars)}
+            aria-pressed={showVars}
+            title={showVars ? "Show plain labels" : "Show Onshape variable names"}
+            className={`rounded-lg border px-2.5 py-1.5 font-mono text-xs transition-colors ${
+              showVars
+                ? "border-sky-500/50 bg-sky-500/15 text-sky-300"
+                : "border-white/10 bg-white/5 text-zinc-500 hover:text-zinc-200"
+            }`}
+          >
+            #name
+          </button>
           <CopyButton value={allText} label="Copy all" className="px-3 py-2" title="Copy every value" />
         </div>
       </header>
@@ -172,8 +211,8 @@ export default function Page() {
           <section className="rounded-xl border border-white/10 bg-zinc-900/50 p-4">
             <div className="flex items-center gap-4">
               <div className="flex-1">
-                <div className="font-mono text-[11px] text-zinc-400">#COATS</div>
-                <div className="text-[10px] text-zinc-600">Number of coats applied</div>
+                <div className="text-sm text-zinc-300">Coats</div>
+                <div className="font-mono text-[10px] text-zinc-600">#COATS</div>
               </div>
               <div className="flex items-center gap-1">
                 <StepButton onClick={() => setCoats(Math.max(1, coats - 1))} label="-" />
@@ -202,7 +241,7 @@ export default function Page() {
             action={<CopyButton value={groupText(stainRows)} label="Copy group" />}
           >
             {stainRows.map((row) => (
-              <ValueRow key={row.name} {...row} />
+              <ValueRow key={row.name} {...row} showVars={showVars} />
             ))}
           </Section>
 
@@ -212,7 +251,7 @@ export default function Page() {
             action={<CopyButton value={groupText(oilRows)} label="Copy group" />}
           >
             {oilRows.map((row) => (
-              <ValueRow key={row.name} {...row} />
+              <ValueRow key={row.name} {...row} showVars={showVars} />
             ))}
           </Section>
 
@@ -229,7 +268,7 @@ export default function Page() {
             }
           >
             {resystaRows.map((row) => (
-              <ValueRow key={row.name} {...row} />
+              <ValueRow key={row.name} {...row} showVars={showVars} />
             ))}
           </Section>
 
@@ -247,11 +286,26 @@ export default function Page() {
             }
           >
             {powderRows.map((row) => (
-              <ValueRow key={row.name} {...row} />
+              <ValueRow key={row.name} {...row} showVars={showVars} />
             ))}
             <div className="mt-1 border-t border-white/10 pt-1">
-              <ValueRow name="POWDER_LB" value={f(r.POWDER_LB)} unit="lb" formula="true pounds of powder" />
-              <ValueRow name="POWDER_KG" value={f(r.POWDER_KG)} unit="kg" formula="true kilograms of powder" />
+              <ValueRow
+                label="Powder required"
+                name="POWDER_LB"
+                value={f(r.POWDER_LB)}
+                unit="lb"
+                formula="true pounds of powder"
+                emphasis
+                showVars={showVars}
+              />
+              <ValueRow
+                label="Powder required"
+                name="POWDER_KG"
+                value={f(r.POWDER_KG)}
+                unit="kg"
+                formula="true kilograms of powder"
+                showVars={showVars}
+              />
             </div>
           </Section>
         </div>

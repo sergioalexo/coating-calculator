@@ -1,9 +1,10 @@
-import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Sibling projects share the Desktop/claude folder; pin tracing to this app.
-  outputFileTracingRoot: path.dirname(new URL(import.meta.url).pathname.slice(1)),
+  // Sibling projects share the parent folder, so pin tracing to this app.
+  // Must be an absolute path on every platform (Windows dev, Linux CI).
+  outputFileTracingRoot: fileURLToPath(new URL(".", import.meta.url)),
 };
 
 export default nextConfig;

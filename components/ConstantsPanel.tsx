@@ -9,17 +9,17 @@ type Props = {
 };
 
 const FIELDS: { key: keyof Constants; label: string; desc: string; step?: number }[] = [
-  { key: "STAIN", label: "STAIN", desc: "sqft per gallon" },
-  { key: "OIL", label: "OIL", desc: "sqft per gallon" },
-  { key: "GRAV", label: "GRAV", desc: "specific gravity", step: 0.001 },
-  { key: "EFFIC", label: "EFFIC", desc: "transfer efficiency", step: 0.05 },
-  { key: "THICKNESS", label: "THICKNESS", desc: "mil thickness", step: 0.1 },
-  { key: "PAIL", label: "PAIL", desc: "pail size (gal)", step: 1 },
-  { key: "CUTEK_ML_PER_GAL", label: "CUTEK/GAL", desc: "ml Colortone per gal", step: 5 },
-  { key: "RESYSTA_PRIMER_ML", label: "RESYSTA_PRIMER_ML", desc: "sqft per ml", step: 0.00001 },
-  { key: "RESYSTA_PRIMER_GAL", label: "RESYSTA_PRIMER_GAL", desc: "sqft per US gal", step: 10 },
-  { key: "RESYSTA_STAIN_ML", label: "RESYSTA_STAIN_ML", desc: "sqft per ml", step: 0.00001 },
-  { key: "RESYSTA_STAIN_GAL", label: "RESYSTA_STAIN_GAL", desc: "sqft per US gal", step: 10 },
+  { key: "STAIN", label: "Stain coverage", desc: "#STAIN — sqft per gallon" },
+  { key: "OIL", label: "Oil coverage", desc: "#OIL — sqft per gallon" },
+  { key: "GRAV", label: "Specific gravity", desc: "#GRAV", step: 0.001 },
+  { key: "EFFIC", label: "Transfer efficiency", desc: "#EFFIC — 0 to 1", step: 0.05 },
+  { key: "THICKNESS", label: "Film thickness", desc: "#THICKNESS — mil", step: 0.1 },
+  { key: "PAIL", label: "Pail size", desc: "gallons per pail", step: 1 },
+  { key: "CUTEK_ML_PER_GAL", label: "Colortone per gallon", desc: "ml per gallon of stain", step: 5 },
+  { key: "RESYSTA_PRIMER_ML", label: "Resysta primer (ml)", desc: "sqft per ml", step: 0.00001 },
+  { key: "RESYSTA_PRIMER_GAL", label: "Resysta primer (gal)", desc: "sqft per US gallon", step: 10 },
+  { key: "RESYSTA_STAIN_ML", label: "Resysta stain (ml)", desc: "sqft per ml", step: 0.00001 },
+  { key: "RESYSTA_STAIN_GAL", label: "Resysta stain (gal)", desc: "sqft per US gallon", step: 10 },
 ];
 
 export default function ConstantsPanel({ constants, onChange }: Props) {
@@ -38,8 +38,8 @@ export default function ConstantsPanel({ constants, onChange }: Props) {
       >
         <span className="h-2 w-2 rounded-full bg-amber-500" />
         <h2 className="flex-1 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-300">Constants</h2>
-        <span className="font-mono text-[11px] text-zinc-500">
-          COVER {effectiveCover(constants).toFixed(3)} sqft/lb
+        <span className="text-[11px] text-zinc-500">
+          Coverage <span className="font-mono">{effectiveCover(constants).toFixed(3)}</span> sqft/lb
         </span>
         <svg
           viewBox="0 0 24 24"
@@ -62,7 +62,7 @@ export default function ConstantsPanel({ constants, onChange }: Props) {
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {FIELDS.map((f) => (
               <label key={f.key} className="block">
-                <span className="mb-1 block font-mono text-[11px] text-zinc-400">{f.label}</span>
+                <span className="mb-1 block text-[11px] text-zinc-300">{f.label}</span>
                 <input
                   type="number"
                   step={f.step ?? 1}
@@ -75,7 +75,7 @@ export default function ConstantsPanel({ constants, onChange }: Props) {
             ))}
 
             <label className="block">
-              <span className="mb-1 block font-mono text-[11px] text-zinc-400">COVER</span>
+              <span className="mb-1 block text-[11px] text-zinc-300">Powder coverage</span>
               <input
                 type="number"
                 step={0.001}
@@ -84,7 +84,7 @@ export default function ConstantsPanel({ constants, onChange }: Props) {
                 onChange={(e) => set("COVER", parseFloat(e.target.value) || 0)}
                 className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 font-mono text-sm tabular-nums text-zinc-100 outline-none focus:border-amber-400/60 disabled:text-zinc-500"
               />
-              <span className="mt-1 block text-[10px] text-zinc-600">sqft per lb</span>
+              <span className="mt-1 block text-[10px] text-zinc-600">#COVER — sqft per lb</span>
             </label>
           </div>
 
@@ -95,7 +95,7 @@ export default function ConstantsPanel({ constants, onChange }: Props) {
               onChange={(e) => set("coverAuto", e.target.checked)}
               className="h-3.5 w-3.5 accent-amber-500"
             />
-            Derive COVER from GRAV / THICKNESS / EFFIC
+            Derive coverage from gravity / thickness / efficiency
             <span className="font-mono text-zinc-600">
               = 192.3 / (GRAV x THICKNESS) x EFFIC = {derived.toFixed(4)}
             </span>

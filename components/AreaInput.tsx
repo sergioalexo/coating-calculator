@@ -125,8 +125,8 @@ export default function AreaInput({ sqin, onChange, decimals }: Props) {
       </div>
 
       <div className="mt-3 grid grid-cols-2 gap-2">
-        <Converted label="in²" value={sqin.toFixed(decimals)} />
-        <Converted label="ft²  (#SQFT)" value={sqft.toFixed(decimals)} />
+        <Converted label="Square inches" value={sqin.toFixed(decimals)} />
+        <Converted label="Square feet" value={sqft.toFixed(decimals)} />
       </div>
 
       <p className="mt-2 h-4 text-[11px] text-sky-300/80">{hint ?? ""}</p>
