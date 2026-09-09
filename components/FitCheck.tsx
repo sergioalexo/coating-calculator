@@ -4,8 +4,8 @@ import { MaxSize, fitsEnvelope } from "@/lib/calc";
 import CopyButton from "./CopyButton";
 
 type Props = {
+  /** Fixed equipment envelope — static, not user-editable. */
   max: MaxSize;
-  onMaxChange: (m: MaxSize) => void;
   part: MaxSize;
   onPartChange: (p: MaxSize) => void;
 };
@@ -13,7 +13,7 @@ type Props = {
 const KEYS: (keyof MaxSize)[] = ["W", "H", "L"];
 const KEY_LABELS: Record<keyof MaxSize, string> = { W: "Width", H: "Height", L: "Length" };
 
-export default function FitCheck({ max, onMaxChange, part, onPartChange }: Props) {
+export default function FitCheck({ max, part, onPartChange }: Props) {
   const result = fitsEnvelope(part, max);
 
   return (
@@ -32,24 +32,25 @@ export default function FitCheck({ max, onMaxChange, part, onPartChange }: Props
 
       <div className="grid gap-3 p-3 sm:grid-cols-2">
         <div>
-          <div className="mb-1.5 text-[10px] uppercase tracking-wider text-zinc-500">Envelope limits (in)</div>
+          <div className="mb-1.5 text-[10px] uppercase tracking-wider text-zinc-500">
+            Envelope limits (in)
+          </div>
           <div className="grid grid-cols-3 gap-2">
             {KEYS.map((k) => (
-              <label key={k} className="block">
+              <div key={k}>
                 <span className="mb-0.5 block text-[10px] text-zinc-400">{KEY_LABELS[k]}</span>
-                <input
-                  type="number"
-                  value={String(max[k])}
-                  onChange={(e) => onMaxChange({ ...max, [k]: parseFloat(e.target.value) || 0 })}
-                  className="w-full rounded-lg border border-white/10 bg-black/40 px-2 py-1.5 font-mono text-[13px] tabular-nums text-zinc-100 outline-none focus:border-violet-400/60"
-                />
-              </label>
+                <div className="rounded-lg border border-white/5 bg-white/[0.03] px-2 py-1.5 font-mono text-[13px] tabular-nums text-zinc-400">
+                  {max[k]}
+                </div>
+              </div>
             ))}
           </div>
         </div>
 
         <div>
-          <div className="mb-1.5 text-[10px] uppercase tracking-wider text-zinc-500">Your part (in)</div>
+          <div className="mb-1.5 text-[10px] uppercase tracking-wider text-zinc-500">
+            Your part (in)
+          </div>
           <div className="grid grid-cols-3 gap-2">
             {KEYS.map((k) => (
               <label key={k} className="block">

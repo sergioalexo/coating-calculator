@@ -8,11 +8,23 @@ type Props = {
   label?: string;
   className?: string;
   title?: string;
+  /** "icon" is the bare copy glyph; "chip" renders the value and unit as the button itself. */
+  variant?: "icon" | "chip";
+  unit?: string;
+  emphasis?: boolean;
 };
 
 type State = "idle" | "copied" | "failed";
 
-export default function CopyButton({ value, label, className = "", title }: Props) {
+export default function CopyButton({
+  value,
+  label,
+  className = "",
+  title,
+  variant = "icon",
+  unit,
+  emphasis,
+}: Props) {
   const [state, setState] = useState<State>("idle");
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fallbackRef = useRef<HTMLTextAreaElement | null>(null);
@@ -43,7 +55,9 @@ export default function CopyButton({ value, label, className = "", title }: Prop
       ? "border-emerald-500/60 bg-emerald-500/15 text-emerald-300"
       : state === "failed"
         ? "border-amber-500/60 bg-amber-500/15 text-amber-300"
-        : "border-white/10 bg-white/5 text-zinc-400 hover:border-white/20 hover:bg-white/10 hover:text-zinc-100";
+        : variant === "chip"
+          ? "cursor-pointer border-white/10 bg-white/[0.04] text-zinc-100 hover:border-sky-400/60 hover:bg-sky-500/10 hover:text-white"
+          : "border-white/10 bg-white/5 text-zinc-400 hover:border-white/20 hover:bg-white/10 hover:text-zinc-100";
 
   return (
     <span className="relative inline-flex">
@@ -52,10 +66,34 @@ export default function CopyButton({ value, label, className = "", title }: Prop
         onClick={onClick}
         title={title ?? `Copy ${value}`}
         aria-label={title ?? `Copy ${value}`}
-        className={`inline-flex shrink-0 items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${tone} ${className}`}
+        className={
+          variant === "chip"
+            ? `inline-flex shrink-0 items-baseline gap-1 rounded-md border px-2 py-1 transition-colors ${tone} ${className}`
+            : `inline-flex shrink-0 items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${tone} ${className}`
+        }
       >
-        {state === "copied" ? <CheckIcon /> : <CopyIcon />}
-        {label ? <span>{state === "copied" ? "Copied" : label}</span> : null}
+        {variant === "chip" ? (
+          <>
+            <span
+              className={`tabular-nums ${emphasis ? "text-sm font-semibold" : "text-[13px] font-medium"}`}
+            >
+              {value}
+            </span>
+            {state === "copied" ? (
+              <span className="inline-flex items-center gap-0.5 text-[10px] font-medium">
+                <CheckIcon size={10} />
+                Copied
+              </span>
+            ) : unit ? (
+              <span className="text-[10px] text-zinc-500">{unit}</span>
+            ) : null}
+          </>
+        ) : (
+          <>
+            {state === "copied" ? <CheckIcon /> : <CopyIcon />}
+            {label ? <span>{state === "copied" ? "Copied" : label}</span> : null}
+          </>
+        )}
       </button>
 
       {state === "failed" ? (
@@ -87,9 +125,9 @@ function CopyIcon() {
   );
 }
 
-function CheckIcon() {
+function CheckIcon({ size = 13 }: { size?: number }) {
   return (
-    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <path d="M20 6 9 17l-5-5" />
     </svg>
   );
