@@ -65,8 +65,6 @@ export type Results = {
   GALLONS_OF_OIL_REQUIRED: number;
   KG: number;
   LBS: number;
-  POWDER_LB: number;
-  POWDER_KG: number;
   RESYSTA_PRIMER_MILLILITERS: number;
   RESYSTA_PRIMER_LITERS: number;
   RESYSTA_PRIMER_GALLONS: number;
@@ -96,9 +94,6 @@ export function calculate(sqft: number, coats: number, c: Constants): Results {
     GALLONS_OF_OIL_REQUIRED: oilGal,
     KG,
     LBS: KG / LB_PER_KG,
-    // COVER is sqft per POUND, so #KG above is really pounds. True units:
-    POWDER_LB: KG,
-    POWDER_KG: KG * LB_PER_KG,
     RESYSTA_PRIMER_MILLILITERS: resystaPrimerMl,
     RESYSTA_PRIMER_LITERS: resystaPrimerMl / 1000,
     RESYSTA_PRIMER_GALLONS: c.RESYSTA_PRIMER_GAL ? (sqft / c.RESYSTA_PRIMER_GAL) * coats : 0,

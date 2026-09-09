@@ -117,34 +117,19 @@ export default function Page() {
 
   const powderRows = [
     {
-      label: "Powder — Onshape #KG",
+      label: "Powder",
       name: "KG",
       value: f(r.KG),
-      unit: "",
+      unit: "kg",
       formula: "#SQFT/#COVER",
       emphasis: true,
     },
     {
-      label: "Powder — Onshape #LBS",
+      label: "Powder",
       name: "LBS",
       value: f(r.LBS),
-      unit: "",
-      formula: "#KG/0.453592",
-    },
-    {
-      label: "Powder required",
-      name: "POWDER_LB",
-      value: f(r.POWDER_LB),
       unit: "lb",
-      formula: "true pounds of powder",
-      emphasis: true,
-    },
-    {
-      label: "Powder required",
-      name: "POWDER_KG",
-      value: f(r.POWDER_KG),
-      unit: "kg",
-      formula: "true kilograms of powder",
+      formula: "#KG/0.453592",
     },
   ];
 
@@ -278,13 +263,6 @@ export default function Page() {
             title="Powder"
             accent="bg-sky-500"
             action={<CopyButton value={groupText(powderRows)} label="Copy" />}
-            note={
-              <>
-                #COVER ({r.COVER.toFixed(3)}) is sqft per <em>pound</em>, so Onshape&rsquo;s #KG holds
-                pounds and #LBS holds kilograms. The first two rows reproduce those formulas exactly;
-                the last two carry the true units.
-              </>
-            }
           >
             {powderRows.map((row) => (
               <ValueRow key={row.name} {...row} showVars={showVars} />

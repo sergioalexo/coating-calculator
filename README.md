@@ -25,11 +25,9 @@ Identical to the Onshape variable table:
 | --- | --- |
 | `#SQFT` | in² / 144 |
 | `#GALLONS_OF_STAIN_REQUIRED` | `(#SQFT/#STAIN)*#COATS` |
-| `#AMOUNT_STAIN_OF_5_GALLON_NEEDED` | `#GALLONS_OF_STAIN_REQUIRED/5` |
 | `#MILLIETERS_OF_CUTEK_COLORTONE_REQUIRED` | `#GALLONS_OF_STAIN_REQUIRED*100` |
 | `#LITTERS_OF_CUTEK_COLORTONE_REQUIRED` | `#MILLIETERS_.../1000` |
 | `#GALLONS_OF_OIL_REQUIRED` | `(#SQFT/#OIL)*#COATS` |
-| `#AMOUNT_OIL_OF_5_GALLON_NEEDED` | `#GALLONS_OF_OIL_REQUIRED/5` |
 | `#KG` | `#SQFT/#COVER` |
 | `#LBS` | `#KG/0.453592` |
 | `#TOTAL_OF_RESYSTA_PRIMER` | `(#SQFT/0.1585)*#COATS` ml |
@@ -38,13 +36,6 @@ Identical to the Onshape variable table:
 Constants default to STAIN 600 sqft/gal, OIL 450 sqft/gal, GRAV 1.682, EFFIC 0.7,
 THICKNESS 2.5 mil, Resysta primer 0.1585 sqft/ml (600 sqft/gal), Resysta stain 0.07927 sqft/ml
 (300 sqft/gal). All are editable in the Constants panel.
-
-### Powder unit note
-
-`#COVER` is `192.3 / (GRAV × THICKNESS) × EFFIC = 32.012`, which is square feet per **pound**,
-not per kilogram. So the Onshape `#KG` value is really pounds and `#LBS` is kilograms. The app
-shows both the original variables (so the numbers match Onshape exactly) and `POWDER_LB` /
-`POWDER_KG` with the correct units.
 
 ## Copying
 
