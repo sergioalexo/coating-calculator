@@ -18,6 +18,33 @@ type Props = {
   showVars?: boolean;
 };
 
+/** The unit chips on their own — used when a section holds a single quantity
+ *  and the chips sit in the section header instead of in a labelled row. */
+export function ValueChips({
+  label,
+  items,
+  emphasis,
+}: {
+  label: string;
+  items: ValueItem[];
+  emphasis?: boolean;
+}) {
+  return (
+    <div className="flex flex-wrap justify-end gap-1.5">
+      {items.map((item) => (
+        <CopyButton
+          key={item.name}
+          variant="chip"
+          value={item.value}
+          unit={item.unit}
+          emphasis={emphasis}
+          title={`Copy ${label} — #${item.name} (${item.value}${item.unit ? " " + item.unit : ""})`}
+        />
+      ))}
+    </div>
+  );
+}
+
 /**
  * One quantity, one label. The same number in several units becomes several
  * chips on the same row instead of repeating the label. Every value is itself

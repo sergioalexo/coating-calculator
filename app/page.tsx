@@ -6,7 +6,7 @@ import ConstantsPanel from "@/components/ConstantsPanel";
 import CopyButton from "@/components/CopyButton";
 import FitCheck from "@/components/FitCheck";
 import Section from "@/components/Section";
-import ValueGroup from "@/components/ValueGroup";
+import ValueGroup, { ValueChips } from "@/components/ValueGroup";
 import {
   Constants,
   DEFAULT_CONSTANTS,
@@ -80,7 +80,7 @@ export default function Page() {
 
   const resystaGroups = [
     {
-      label: "Resysta primer",
+      label: "Primer",
       emphasis: true,
       items: [
         {
@@ -104,7 +104,7 @@ export default function Page() {
       ],
     },
     {
-      label: "Resysta stain",
+      label: "Stain",
       emphasis: true,
       items: [
         {
@@ -246,11 +246,17 @@ export default function Page() {
           <Section
             title="Oil"
             accent="bg-emerald-500"
-            action={<CopyButton value={groupText(oilGroups)} label="Copy" />}
+            action={
+              showVars ? (
+                <CopyButton value={groupText(oilGroups)} label="Copy" />
+              ) : (
+                <ValueChips label="Oil" items={oilGroups[0].items} emphasis />
+              )
+            }
           >
-            {oilGroups.map((g) => (
-              <ValueGroup key={g.label} {...g} showVars={showVars} />
-            ))}
+            {showVars
+              ? oilGroups.map((g) => <ValueGroup key={g.label} {...g} showVars />)
+              : null}
           </Section>
 
           <Section
@@ -269,11 +275,17 @@ export default function Page() {
           <Section
             title="Powder"
             accent="bg-sky-500"
-            action={<CopyButton value={groupText(powderGroups)} label="Copy" />}
+            action={
+              showVars ? (
+                <CopyButton value={groupText(powderGroups)} label="Copy" />
+              ) : (
+                <ValueChips label="Powder" items={powderGroups[0].items} emphasis />
+              )
+            }
           >
-            {powderGroups.map((g) => (
-              <ValueGroup key={g.label} {...g} showVars={showVars} />
-            ))}
+            {showVars
+              ? powderGroups.map((g) => <ValueGroup key={g.label} {...g} showVars />)
+              : null}
           </Section>
 
           <footer className="flex items-center justify-between gap-3 px-1 text-[11px] text-zinc-600">

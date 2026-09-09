@@ -4,7 +4,7 @@ type Props = {
   title: string;
   accent?: string;
   action?: ReactNode;
-  children: ReactNode;
+  children?: ReactNode;
   note?: ReactNode;
 };
 
@@ -18,7 +18,7 @@ export default function Section({ title, accent = "bg-zinc-500", action, childre
         </h2>
         {action}
       </header>
-      <div className="p-1.5">{children}</div>
+      {children ? <div className="p-1.5">{children}</div> : null}
       {note ? (
         <div className="border-t border-white/10 px-3 py-1.5 text-[10px] leading-snug text-zinc-500">
           {note}
