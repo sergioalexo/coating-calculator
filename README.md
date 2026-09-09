@@ -11,7 +11,8 @@ npm run dev      # http://localhost:3010
 
 ## Input
 
-- **Total surface area** in `in²` or `ft²`, switchable. The **Paste** button reads the clipboard,
+- **Total surface area** as two live fields, `in²` and `ft²` — type in either and the other
+  follows. The **Paste** button reads the clipboard,
   pulls the first number out of whatever was copied (`1,234.5`, `2019 sq in`, `6.94 ft^2`) and
   auto-detects the unit when the text mentions one. `Ctrl+V` directly into the field does the same.
 - **#COATS** with +/- steppers.

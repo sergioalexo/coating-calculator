@@ -131,7 +131,9 @@ export function fmt(n: number, decimals: number): string {
 
 /** Pulls the first number out of pasted text; understands 1,234.5 / 12" / 6.94 ft^2. */
 export function parseNumeric(text: string): { value: number | null; unit: "in" | "ft" | null } {
-  const cleaned = text.replace(/,/g, " ").trim();
+  // Strip thousands separators ("2,019" -> "2019") without eating a comma
+  // that merely separates values; anything else is left for the matcher.
+  const cleaned = text.replace(/(\d),(?=\d{3}(?!\d))/g, "$1").trim();
   const match = cleaned.match(/-?\d*\.?\d+(?:[eE][-+]?\d+)?/);
   if (!match) return { value: null, unit: null };
   const value = parseFloat(match[0]);
