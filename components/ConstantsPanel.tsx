@@ -6,6 +6,8 @@ import { Constants, DEFAULT_CONSTANTS, deriveCover, effectiveCover } from "@/lib
 type Props = {
   constants: Constants;
   onChange: (c: Constants) => void;
+  coats: number;
+  onCoatsChange: (n: number) => void;
 };
 
 const FIELDS: { key: keyof Constants; label: string; desc: string; step?: number }[] = [
@@ -21,7 +23,7 @@ const FIELDS: { key: keyof Constants; label: string; desc: string; step?: number
   { key: "RESYSTA_STAIN_GAL", label: "Resysta stain (gal)", desc: "sqft per US gallon", step: 10 },
 ];
 
-export default function ConstantsPanel({ constants, onChange }: Props) {
+export default function ConstantsPanel({ constants, onChange, coats, onCoatsChange }: Props) {
   const [open, setOpen] = useState(false);
   const set = (key: keyof Constants, value: number | boolean) =>
     onChange({ ...constants, [key]: value });
@@ -38,7 +40,9 @@ export default function ConstantsPanel({ constants, onChange }: Props) {
         <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
         <h2 className="flex-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-300">Constants</h2>
         <span className="text-[11px] text-zinc-500">
-          Coverage <span className="font-mono">{effectiveCover(constants).toFixed(3)}</span> sqft/lb
+          <span className="font-mono">{coats}</span> coat{coats === 1 ? "" : "s"}
+          <span className="mx-1.5 text-zinc-700">·</span>
+          coverage <span className="font-mono">{effectiveCover(constants).toFixed(3)}</span> sqft/lb
         </span>
         <svg
           viewBox="0 0 24 24"
@@ -59,6 +63,19 @@ export default function ConstantsPanel({ constants, onChange }: Props) {
       {open ? (
         <div className="border-t border-white/10 p-3">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <label className="block">
+              <span className="mb-1 block text-[11px] text-zinc-300">Coats</span>
+              <input
+                type="number"
+                min={1}
+                step={1}
+                value={String(coats)}
+                onChange={(e) => onCoatsChange(Math.max(0, parseFloat(e.target.value) || 0))}
+                className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 font-mono text-sm tabular-nums text-zinc-100 outline-none focus:border-amber-400/60"
+              />
+              <span className="mt-1 block text-[10px] text-zinc-600">#COATS — coats applied</span>
+            </label>
+
             {FIELDS.map((f) => (
               <label key={f.key} className="block">
                 <span className="mb-1 block text-[11px] text-zinc-300">{f.label}</span>

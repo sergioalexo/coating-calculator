@@ -205,28 +205,12 @@ export default function Page() {
         <div className="flex flex-col gap-3">
           <AreaInput sqin={sqin} onChange={setSqin} decimals={decimals} />
 
-          <section className="rounded-xl border border-white/10 bg-zinc-900/50 px-3 py-2">
-            <div className="flex items-center gap-3">
-              <div className="flex-1">
-                <div className="text-[13px] text-zinc-300">Coats</div>
-                <div className="font-mono text-[10px] text-zinc-600">#COATS</div>
-              </div>
-              <div className="flex items-center gap-1">
-                <StepButton onClick={() => setCoats(Math.max(1, coats - 1))} label="-" />
-                <input
-                  type="number"
-                  min={1}
-                  value={String(coats)}
-                  onChange={(e) => setCoats(Math.max(0, parseFloat(e.target.value) || 0))}
-                  className="w-14 rounded-lg border border-white/10 bg-black/40 px-2 py-1.5 text-center font-mono text-sm tabular-nums text-white outline-none focus:border-sky-400/60"
-                />
-                <StepButton onClick={() => setCoats(coats + 1)} label="+" />
-              </div>
-              <CopyButton value={String(coats)} title={`Copy ${coats}`} />
-            </div>
-          </section>
-
-          <ConstantsPanel constants={constants} onChange={setConstants} />
+          <ConstantsPanel
+            constants={constants}
+            onChange={setConstants}
+            coats={coats}
+            onCoatsChange={setCoats}
+          />
 
           <FitCheck max={DEFAULT_MAX_SIZE} part={part} onPartChange={setPart} />
         </div>
@@ -312,18 +296,5 @@ export default function Page() {
         </div>
       </div>
     </main>
-  );
-}
-
-function StepButton({ onClick, label }: { onClick: () => void; label: string }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={label === "+" ? "Increase coats" : "Decrease coats"}
-      className="h-8 w-8 rounded-lg border border-white/10 bg-white/5 text-sm text-zinc-300 transition-colors hover:bg-white/10 hover:text-white"
-    >
-      {label}
-    </button>
   );
 }
