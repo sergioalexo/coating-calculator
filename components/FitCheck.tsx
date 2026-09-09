@@ -18,10 +18,10 @@ export default function FitCheck({ max, onMaxChange, part, onPartChange }: Props
 
   return (
     <section className="rounded-xl border border-white/10 bg-zinc-900/50">
-      <header className="flex items-center gap-3 border-b border-white/10 px-4 py-3">
-        <span className="h-2 w-2 rounded-full bg-violet-500" />
-        <h2 className="flex-1 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-300">
-          Max sizes that fit for powder coating
+      <header className="flex items-center gap-2.5 border-b border-white/10 px-3 py-2">
+        <span className="h-1.5 w-1.5 rounded-full bg-violet-500" />
+        <h2 className="flex-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-300">
+          Max size for powder coating
         </h2>
         <CopyButton
           value={`${max.W} x ${max.H} x ${max.L} in`}
@@ -30,18 +30,18 @@ export default function FitCheck({ max, onMaxChange, part, onPartChange }: Props
         />
       </header>
 
-      <div className="grid gap-4 p-4 sm:grid-cols-2">
+      <div className="grid gap-3 p-3 sm:grid-cols-2">
         <div>
-          <div className="mb-2 text-[10px] uppercase tracking-wider text-zinc-500">Envelope limits (in)</div>
+          <div className="mb-1.5 text-[10px] uppercase tracking-wider text-zinc-500">Envelope limits (in)</div>
           <div className="grid grid-cols-3 gap-2">
             {KEYS.map((k) => (
               <label key={k} className="block">
-                <span className="mb-1 block text-[11px] text-zinc-300">{KEY_LABELS[k]}</span>
+                <span className="mb-0.5 block text-[10px] text-zinc-400">{KEY_LABELS[k]}</span>
                 <input
                   type="number"
                   value={String(max[k])}
                   onChange={(e) => onMaxChange({ ...max, [k]: parseFloat(e.target.value) || 0 })}
-                  className="w-full rounded-lg border border-white/10 bg-black/40 px-2 py-2 font-mono text-sm tabular-nums text-zinc-100 outline-none focus:border-violet-400/60"
+                  className="w-full rounded-lg border border-white/10 bg-black/40 px-2 py-1.5 font-mono text-[13px] tabular-nums text-zinc-100 outline-none focus:border-violet-400/60"
                 />
               </label>
             ))}
@@ -49,17 +49,17 @@ export default function FitCheck({ max, onMaxChange, part, onPartChange }: Props
         </div>
 
         <div>
-          <div className="mb-2 text-[10px] uppercase tracking-wider text-zinc-500">Your part (in)</div>
+          <div className="mb-1.5 text-[10px] uppercase tracking-wider text-zinc-500">Your part (in)</div>
           <div className="grid grid-cols-3 gap-2">
             {KEYS.map((k) => (
               <label key={k} className="block">
-                <span className="mb-1 block text-[11px] text-zinc-300">{KEY_LABELS[k]}</span>
+                <span className="mb-0.5 block text-[10px] text-zinc-400">{KEY_LABELS[k]}</span>
                 <input
                   type="number"
                   value={part[k] ? String(part[k]) : ""}
                   placeholder="0"
                   onChange={(e) => onPartChange({ ...part, [k]: parseFloat(e.target.value) || 0 })}
-                  className="w-full rounded-lg border border-white/10 bg-black/40 px-2 py-2 font-mono text-sm tabular-nums text-zinc-100 outline-none focus:border-violet-400/60"
+                  className="w-full rounded-lg border border-white/10 bg-black/40 px-2 py-1.5 font-mono text-[13px] tabular-nums text-zinc-100 outline-none focus:border-violet-400/60"
                 />
               </label>
             ))}
@@ -69,7 +69,7 @@ export default function FitCheck({ max, onMaxChange, part, onPartChange }: Props
 
       {result ? (
         <div
-          className={`border-t px-4 py-2.5 text-xs font-medium ${
+          className={`border-t px-3 py-1.5 text-[11px] font-medium ${
             result.fits
               ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-300"
               : "border-red-500/20 bg-red-500/10 text-red-300"
@@ -80,7 +80,7 @@ export default function FitCheck({ max, onMaxChange, part, onPartChange }: Props
             : "Too large — no orientation fits the envelope."}
         </div>
       ) : (
-        <div className="border-t border-white/10 px-4 py-2.5 text-xs text-zinc-500">
+        <div className="border-t border-white/10 px-3 py-1.5 text-[11px] text-zinc-500">
           Enter part W / H / L to check the fit.
         </div>
       )}

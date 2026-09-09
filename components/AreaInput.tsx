@@ -72,9 +72,9 @@ export default function AreaInput({ sqin, onChange, decimals }: Props) {
   };
 
   return (
-    <section className="rounded-xl border border-sky-500/25 bg-gradient-to-b from-sky-500/[0.09] to-transparent p-4">
-      <div className="mb-3 flex items-center justify-between gap-3">
-        <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-300">Total surface area</h2>
+    <section className="rounded-xl border border-sky-500/25 bg-gradient-to-b from-sky-500/[0.09] to-transparent p-3">
+      <div className="mb-2 flex items-center justify-between gap-3">
+        <h2 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sky-300">Total surface area</h2>
         <div className="flex rounded-lg border border-white/10 bg-black/30 p-0.5">
           {(["in", "ft"] as Unit[]).map((u) => (
             <button
@@ -104,7 +104,7 @@ export default function AreaInput({ sqin, onChange, decimals }: Props) {
             onPaste={onFieldPaste}
             placeholder="0"
             aria-label={`Total surface area in square ${unit === "in" ? "inches" : "feet"}`}
-            className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-3 pr-14 font-mono text-2xl tabular-nums text-white outline-none transition-colors focus:border-sky-400/70 focus:ring-2 focus:ring-sky-500/20"
+            className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 pr-14 font-mono text-xl tabular-nums text-white outline-none transition-colors focus:border-sky-400/70 focus:ring-2 focus:ring-sky-500/20"
           />
           <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-zinc-500">
             {unit === "in" ? "in²" : "ft²"}
@@ -124,19 +124,19 @@ export default function AreaInput({ sqin, onChange, decimals }: Props) {
         </button>
       </div>
 
-      <div className="mt-3 grid grid-cols-2 gap-2">
+      <div className="mt-2 grid grid-cols-2 gap-2">
         <Converted label="Square inches" value={sqin.toFixed(decimals)} />
         <Converted label="Square feet" value={sqft.toFixed(decimals)} />
       </div>
 
-      <p className="mt-2 h-4 text-[11px] text-sky-300/80">{hint ?? ""}</p>
+      <p className="mt-1.5 h-3.5 text-[10px] text-sky-300/80">{hint ?? ""}</p>
     </section>
   );
 }
 
 function Converted({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-black/25 px-3 py-2">
+    <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-black/25 px-2.5 py-1.5">
       <div className="min-w-0 flex-1">
         <div className="text-[10px] uppercase tracking-wider text-zinc-500">{label}</div>
         <div className="truncate font-mono text-sm tabular-nums text-zinc-100">{value}</div>

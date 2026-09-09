@@ -2,11 +2,9 @@
 //
 //   #SQFT                                   -> total surface area in ft^2
 //   #GALLONS_OF_STAIN_REQUIRED              = (#SQFT/#STAIN)*#COATS
-//   #AMOUNT_STAIN_OF_5_GALLON_NEEDED        = #GALLONS_OF_STAIN_REQUIRED/5
 //   #MILLIETERS_OF_CUTEK_COLORTONE_REQUIRED = #GALLONS_OF_STAIN_REQUIRED*100
 //   #LITTERS_OF_CUTEK_COLORTONE_REQUIRED    = #MILLIETERS_.../1000
 //   #GALLONS_OF_OIL_REQUIRED                = (#SQFT/#OIL)*#COATS
-//   #AMOUNT_OIL_OF_5_GALLON_NEEDED          = #GALLONS_OF_OIL_REQUIRED/5
 //   #KG                                     = #SQFT/#COVER
 //   #LBS                                    = #KG/0.453592
 
@@ -21,7 +19,6 @@ export type Constants = {
   THICKNESS: number; // mil
   COVER: number; // sqft per lb of powder
   coverAuto: boolean; // derive COVER from GRAV / EFFIC / THICKNESS
-  PAIL: number; // pail size in gallons
   CUTEK_ML_PER_GAL: number; // ml of Colortone per gallon of stain
   RESYSTA_PRIMER_ML: number; // sqft per ml
   RESYSTA_PRIMER_GAL: number; // sqft per US gallon
@@ -37,7 +34,6 @@ export const DEFAULT_CONSTANTS: Constants = {
   THICKNESS: 2.5,
   COVER: 32.012,
   coverAuto: true,
-  PAIL: 5,
   CUTEK_ML_PER_GAL: 100,
   RESYSTA_PRIMER_ML: 0.1585,
   RESYSTA_PRIMER_GAL: 600,
@@ -64,11 +60,9 @@ export type Results = {
   SQIN: number;
   COVER: number;
   GALLONS_OF_STAIN_REQUIRED: number;
-  AMOUNT_STAIN_OF_5_GALLON_NEEDED: number;
   MILLIETERS_OF_CUTEK_COLORTONE_REQUIRED: number;
   LITTERS_OF_CUTEK_COLORTONE_REQUIRED: number;
   GALLONS_OF_OIL_REQUIRED: number;
-  AMOUNT_OIL_OF_5_GALLON_NEEDED: number;
   KG: number;
   LBS: number;
   POWDER_LB: number;
@@ -97,11 +91,9 @@ export function calculate(sqft: number, coats: number, c: Constants): Results {
     SQIN: sqft * SQ_IN_PER_SQ_FT,
     COVER,
     GALLONS_OF_STAIN_REQUIRED: stainGal,
-    AMOUNT_STAIN_OF_5_GALLON_NEEDED: c.PAIL ? stainGal / c.PAIL : 0,
     MILLIETERS_OF_CUTEK_COLORTONE_REQUIRED: cutekMl,
     LITTERS_OF_CUTEK_COLORTONE_REQUIRED: cutekMl / 1000,
     GALLONS_OF_OIL_REQUIRED: oilGal,
-    AMOUNT_OIL_OF_5_GALLON_NEEDED: c.PAIL ? oilGal / c.PAIL : 0,
     KG,
     LBS: KG / LB_PER_KG,
     // COVER is sqft per POUND, so #KG above is really pounds. True units:

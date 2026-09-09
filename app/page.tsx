@@ -42,13 +42,6 @@ export default function Page() {
       emphasis: true,
     },
     {
-      label: `Pails of stain (${constants.PAIL} gal)`,
-      name: "AMOUNT_STAIN_OF_5_GALLON_NEEDED",
-      value: f(r.AMOUNT_STAIN_OF_5_GALLON_NEEDED),
-      unit: "pails",
-      formula: `#GALLONS_OF_STAIN_REQUIRED/${constants.PAIL}`,
-    },
-    {
       label: "Cutek Colortone",
       name: "MILLIETERS_OF_CUTEK_COLORTONE_REQUIRED",
       value: f(r.MILLIETERS_OF_CUTEK_COLORTONE_REQUIRED),
@@ -72,13 +65,6 @@ export default function Page() {
       unit: "gal",
       formula: "(#SQFT/#OIL)*#COATS",
       emphasis: true,
-    },
-    {
-      label: `Pails of oil (${constants.PAIL} gal)`,
-      name: "AMOUNT_OIL_OF_5_GALLON_NEEDED",
-      value: f(r.AMOUNT_OIL_OF_5_GALLON_NEEDED),
-      unit: "pails",
-      formula: `#GALLONS_OF_OIL_REQUIRED/${constants.PAIL}`,
     },
   ];
 
@@ -145,6 +131,21 @@ export default function Page() {
       unit: "",
       formula: "#KG/0.453592",
     },
+    {
+      label: "Powder required",
+      name: "POWDER_LB",
+      value: f(r.POWDER_LB),
+      unit: "lb",
+      formula: "true pounds of powder",
+      emphasis: true,
+    },
+    {
+      label: "Powder required",
+      name: "POWDER_KG",
+      value: f(r.POWDER_KG),
+      unit: "kg",
+      formula: "true kilograms of powder",
+    },
   ];
 
   const allText = [
@@ -154,31 +155,29 @@ export default function Page() {
     ...[...stainRows, ...oilRows, ...resystaRows, ...powderRows].map(
       (x) => `#${x.name}\t${x.value}`,
     ),
-    `POWDER_LB\t${f(r.POWDER_LB)}`,
-    `POWDER_KG\t${f(r.POWDER_KG)}`,
   ].join("\n");
 
   const groupText = (rows: { name: string; value: string }[]) =>
     rows.map((x) => `#${x.name}\t${x.value}`).join("\n");
 
   return (
-    <main className="mx-auto min-h-screen w-full max-w-5xl px-4 py-8 sm:px-6">
-      <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-white">
+    <main className="mx-auto w-full max-w-[1500px] px-4 py-4">
+      <header className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-baseline gap-3">
+          <h1 className="text-lg font-semibold tracking-tight text-white">
             Coating <span className="text-sky-400">Calculator</span>
           </h1>
-          <p className="mt-1 text-sm text-zinc-500">
-            Stain, oil, Resysta and powder quantities from total surface area. Click any value to copy it.
+          <p className="hidden text-[11px] text-zinc-500 sm:block">
+            Stain, oil, Resysta and powder quantities from total surface area.
           </p>
         </div>
-        <div className="flex items-center gap-3">
-          <label className="flex items-center gap-2 text-[11px] text-zinc-500">
+        <div className="flex items-center gap-2">
+          <label className="flex items-center gap-1.5 text-[11px] text-zinc-500">
             Decimals
             <select
               value={decimals}
               onChange={(e) => setDecimals(Number(e.target.value))}
-              className="rounded-lg border border-white/10 bg-black/40 px-2 py-1.5 text-xs text-zinc-200 outline-none focus:border-sky-400/60"
+              className="rounded-lg border border-white/10 bg-black/40 px-1.5 py-1 text-xs text-zinc-200 outline-none focus:border-sky-400/60"
             >
               {DECIMAL_OPTIONS.map((d) => (
                 <option key={d} value={d}>
@@ -192,7 +191,7 @@ export default function Page() {
             onClick={() => setShowVars(!showVars)}
             aria-pressed={showVars}
             title={showVars ? "Show plain labels" : "Show Onshape variable names"}
-            className={`rounded-lg border px-2.5 py-1.5 font-mono text-xs transition-colors ${
+            className={`rounded-lg border px-2 py-1 font-mono text-[11px] transition-colors ${
               showVars
                 ? "border-sky-500/50 bg-sky-500/15 text-sky-300"
                 : "border-white/10 bg-white/5 text-zinc-500 hover:text-zinc-200"
@@ -200,18 +199,24 @@ export default function Page() {
           >
             #name
           </button>
-          <CopyButton value={allText} label="Copy all" className="px-3 py-2" title="Copy every value" />
+          <CopyButton
+            value={allText}
+            label="Copy all"
+            className="px-2.5 py-1.5"
+            title="Copy every value"
+          />
         </div>
       </header>
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        <div className="flex flex-col gap-4">
+      <div className="grid items-start gap-3 md:grid-cols-2 lg:grid-cols-3">
+        {/* Inputs */}
+        <div className="flex flex-col gap-3">
           <AreaInput sqin={sqin} onChange={setSqin} decimals={decimals} />
 
-          <section className="rounded-xl border border-white/10 bg-zinc-900/50 p-4">
-            <div className="flex items-center gap-4">
+          <section className="rounded-xl border border-white/10 bg-zinc-900/50 px-3 py-2">
+            <div className="flex items-center gap-3">
               <div className="flex-1">
-                <div className="text-sm text-zinc-300">Coats</div>
+                <div className="text-[13px] text-zinc-300">Coats</div>
                 <div className="font-mono text-[10px] text-zinc-600">#COATS</div>
               </div>
               <div className="flex items-center gap-1">
@@ -221,7 +226,7 @@ export default function Page() {
                   min={1}
                   value={String(coats)}
                   onChange={(e) => setCoats(Math.max(0, parseFloat(e.target.value) || 0))}
-                  className="w-16 rounded-lg border border-white/10 bg-black/40 px-2 py-2 text-center font-mono text-sm tabular-nums text-white outline-none focus:border-sky-400/60"
+                  className="w-14 rounded-lg border border-white/10 bg-black/40 px-2 py-1.5 text-center font-mono text-sm tabular-nums text-white outline-none focus:border-sky-400/60"
                 />
                 <StepButton onClick={() => setCoats(coats + 1)} label="+" />
               </div>
@@ -234,11 +239,12 @@ export default function Page() {
           <FitCheck max={maxSize} onMaxChange={setMaxSize} part={part} onPartChange={setPart} />
         </div>
 
-        <div className="flex flex-col gap-4">
+        {/* Stain, oil and Resysta */}
+        <div className="flex flex-col gap-3">
           <Section
             title="Stain"
             accent="bg-orange-500"
-            action={<CopyButton value={groupText(stainRows)} label="Copy group" />}
+            action={<CopyButton value={groupText(stainRows)} label="Copy" />}
           >
             {stainRows.map((row) => (
               <ValueRow key={row.name} {...row} showVars={showVars} />
@@ -248,7 +254,7 @@ export default function Page() {
           <Section
             title="Oil"
             accent="bg-emerald-500"
-            action={<CopyButton value={groupText(oilRows)} label="Copy group" />}
+            action={<CopyButton value={groupText(oilRows)} label="Copy" />}
           >
             {oilRows.map((row) => (
               <ValueRow key={row.name} {...row} showVars={showVars} />
@@ -258,80 +264,56 @@ export default function Page() {
           <Section
             title="Resysta"
             accent="bg-cyan-500"
-            action={<CopyButton value={groupText(resystaRows)} label="Copy group" />}
-            note={
-              <>
-                Primer {constants.RESYSTA_PRIMER_ML} sqft/ml ({constants.RESYSTA_PRIMER_GAL} sqft/US gal),
-                stain {constants.RESYSTA_STAIN_ML} sqft/ml ({constants.RESYSTA_STAIN_GAL} sqft/US gal).
-                Multiplied by #COATS.
-              </>
-            }
+            action={<CopyButton value={groupText(resystaRows)} label="Copy" />}
           >
             {resystaRows.map((row) => (
               <ValueRow key={row.name} {...row} showVars={showVars} />
             ))}
           </Section>
+        </div>
 
+        {/* Powder */}
+        <div className="flex flex-col gap-3">
           <Section
             title="Powder"
             accent="bg-sky-500"
-            action={<CopyButton value={groupText(powderRows)} label="Copy group" />}
+            action={<CopyButton value={groupText(powderRows)} label="Copy" />}
             note={
               <>
-                <span className="text-zinc-400">Unit note:</span> #COVER (
-                {r.COVER.toFixed(3)}) is square feet per <em>pound</em> — 192.3 / (GRAV x THICKNESS) x
-                EFFIC — so the Onshape #KG value is actually pounds and #LBS is kilograms. The values
-                above reproduce your formulas exactly; the true units are below.
+                #COVER ({r.COVER.toFixed(3)}) is sqft per <em>pound</em>, so Onshape&rsquo;s #KG holds
+                pounds and #LBS holds kilograms. The first two rows reproduce those formulas exactly;
+                the last two carry the true units.
               </>
             }
           >
             {powderRows.map((row) => (
               <ValueRow key={row.name} {...row} showVars={showVars} />
             ))}
-            <div className="mt-1 border-t border-white/10 pt-1">
-              <ValueRow
-                label="Powder required"
-                name="POWDER_LB"
-                value={f(r.POWDER_LB)}
-                unit="lb"
-                formula="true pounds of powder"
-                emphasis
-                showVars={showVars}
-              />
-              <ValueRow
-                label="Powder required"
-                name="POWDER_KG"
-                value={f(r.POWDER_KG)}
-                unit="kg"
-                formula="true kilograms of powder"
-                showVars={showVars}
-              />
-            </div>
           </Section>
+
+          <footer className="flex items-center justify-between gap-3 px-1 text-[11px] text-zinc-600">
+            <span>
+              Developed by{" "}
+              <a
+                href="https://sergioalexo.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-sky-400/90 underline-offset-4 transition-colors hover:text-sky-300 hover:underline"
+              >
+                Sergio Alexo
+              </a>
+            </span>
+            <a
+              href="https://sergioalexo.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-zinc-300"
+            >
+              sergioalexo.com
+            </a>
+          </footer>
         </div>
       </div>
-
-      <footer className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-5 text-xs text-zinc-500">
-        <span>
-          Developed by{" "}
-          <a
-            href="https://sergioalexo.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-sky-400 underline-offset-4 transition-colors hover:text-sky-300 hover:underline"
-          >
-            Sergio Alexo
-          </a>
-        </span>
-        <a
-          href="https://sergioalexo.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-zinc-600 transition-colors hover:text-zinc-300"
-        >
-          sergioalexo.com
-        </a>
-      </footer>
     </main>
   );
 }
@@ -342,7 +324,7 @@ function StepButton({ onClick, label }: { onClick: () => void; label: string }) 
       type="button"
       onClick={onClick}
       aria-label={label === "+" ? "Increase coats" : "Decrease coats"}
-      className="h-9 w-9 rounded-lg border border-white/10 bg-white/5 text-sm text-zinc-300 transition-colors hover:bg-white/10 hover:text-white"
+      className="h-8 w-8 rounded-lg border border-white/10 bg-white/5 text-sm text-zinc-300 transition-colors hover:bg-white/10 hover:text-white"
     >
       {label}
     </button>

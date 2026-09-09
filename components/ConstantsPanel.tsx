@@ -14,7 +14,6 @@ const FIELDS: { key: keyof Constants; label: string; desc: string; step?: number
   { key: "GRAV", label: "Specific gravity", desc: "#GRAV", step: 0.001 },
   { key: "EFFIC", label: "Transfer efficiency", desc: "#EFFIC — 0 to 1", step: 0.05 },
   { key: "THICKNESS", label: "Film thickness", desc: "#THICKNESS — mil", step: 0.1 },
-  { key: "PAIL", label: "Pail size", desc: "gallons per pail", step: 1 },
   { key: "CUTEK_ML_PER_GAL", label: "Colortone per gallon", desc: "ml per gallon of stain", step: 5 },
   { key: "RESYSTA_PRIMER_ML", label: "Resysta primer (ml)", desc: "sqft per ml", step: 0.00001 },
   { key: "RESYSTA_PRIMER_GAL", label: "Resysta primer (gal)", desc: "sqft per US gallon", step: 10 },
@@ -34,10 +33,10 @@ export default function ConstantsPanel({ constants, onChange }: Props) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center gap-3 px-4 py-3 text-left"
+        className="flex w-full items-center gap-2.5 px-3 py-2 text-left"
       >
-        <span className="h-2 w-2 rounded-full bg-amber-500" />
-        <h2 className="flex-1 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-300">Constants</h2>
+        <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+        <h2 className="flex-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-300">Constants</h2>
         <span className="text-[11px] text-zinc-500">
           Coverage <span className="font-mono">{effectiveCover(constants).toFixed(3)}</span> sqft/lb
         </span>
@@ -58,7 +57,7 @@ export default function ConstantsPanel({ constants, onChange }: Props) {
       </button>
 
       {open ? (
-        <div className="border-t border-white/10 p-4">
+        <div className="border-t border-white/10 p-3">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {FIELDS.map((f) => (
               <label key={f.key} className="block">
