@@ -143,7 +143,7 @@ export default function Page() {
             Coating <span className="text-sky-400">Calculator</span>
           </h1>
           <p className="mt-1 text-sm text-zinc-500">
-            Stain, oil and powder quantities from total surface area. Click any value to copy it.
+            Stain, oil, Resysta and powder quantities from total surface area. Click any value to copy it.
           </p>
         </div>
         <div className="flex items-center gap-3">

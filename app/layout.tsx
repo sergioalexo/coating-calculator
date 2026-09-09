@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Coating Calculator",
   description:
-    "Stain, oil and powder coating quantities from total surface area, with one-click copy and paste. Developed by Sergio Alexo.",
+    "Stain, oil, Resysta and powder coating quantities from total surface area, with one-click copy and paste. Developed by Sergio Alexo.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
