@@ -1,6 +1,6 @@
 # Coating Calculator
 
-Next.js 15 + Tailwind 4 app that reproduces the Onshape variable table for stain, oil, Resysta
+Next.js 16 + Tailwind 4 app that reproduces the Onshape variable table for stain, oil, Resysta
 and powder coating quantities — with one-click copy on every value and a paste-aware surface
 area input.
 
