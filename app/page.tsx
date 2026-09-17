@@ -200,7 +200,7 @@ export default function Page() {
         </div>
       </header>
 
-      <div className="grid items-start gap-3 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid items-start gap-3 md:grid-cols-2">
         {/* Inputs */}
         <div className="flex flex-col gap-3">
           <AreaInput sqin={sqin} onChange={setSqin} decimals={decimals} />
@@ -215,8 +215,24 @@ export default function Page() {
           <FitCheck max={DEFAULT_MAX_SIZE} part={part} onPartChange={setPart} />
         </div>
 
-        {/* Stain, oil and Resysta */}
+        {/* Powder, stain, oil and Resysta */}
         <div className="flex flex-col gap-3">
+          <Section
+            title="Powder"
+            accent="bg-sky-500"
+            action={
+              showVars ? (
+                <CopyButton value={groupText(powderGroups)} label="Copy" />
+              ) : (
+                <ValueChips label="Powder" items={powderGroups[0].items} emphasis />
+              )
+            }
+          >
+            {showVars
+              ? powderGroups.map((g) => <ValueGroup key={g.label} {...g} showVars />)
+              : null}
+          </Section>
+
           <Section
             title="Stain"
             accent="bg-orange-500"
@@ -253,48 +269,29 @@ export default function Page() {
             ))}
           </Section>
         </div>
-
-        {/* Powder */}
-        <div className="flex flex-col gap-3">
-          <Section
-            title="Powder"
-            accent="bg-sky-500"
-            action={
-              showVars ? (
-                <CopyButton value={groupText(powderGroups)} label="Copy" />
-              ) : (
-                <ValueChips label="Powder" items={powderGroups[0].items} emphasis />
-              )
-            }
-          >
-            {showVars
-              ? powderGroups.map((g) => <ValueGroup key={g.label} {...g} showVars />)
-              : null}
-          </Section>
-
-          <footer className="flex items-center justify-between gap-3 px-1 text-[11px] text-zinc-600">
-            <span>
-              Developed by{" "}
-              <a
-                href="https://sergioalexo.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium text-sky-400/90 underline-offset-4 transition-colors hover:text-sky-300 hover:underline"
-              >
-                Sergio Alexo
-              </a>
-            </span>
-            <a
-              href="https://sergioalexo.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-zinc-300"
-            >
-              sergioalexo.com
-            </a>
-          </footer>
-        </div>
       </div>
+
+      <footer className="mt-3 flex items-center justify-between gap-3 px-1 text-[11px] text-zinc-600">
+        <span>
+          Developed by{" "}
+          <a
+            href="https://sergioalexo.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-sky-400/90 underline-offset-4 transition-colors hover:text-sky-300 hover:underline"
+          >
+            Sergio Alexo
+          </a>
+        </span>
+        <a
+          href="https://sergioalexo.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transition-colors hover:text-zinc-300"
+        >
+          sergioalexo.com
+        </a>
+      </footer>
     </main>
   );
 }
