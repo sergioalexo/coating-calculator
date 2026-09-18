@@ -15,10 +15,10 @@ npm run dev      # http://localhost:3010
   follows. The **Paste** button reads the clipboard,
   pulls the first number out of whatever was copied (`1,234.5`, `2019 sq in`, `6.94 ft^2`) and
   auto-detects the unit when the text mentions one. `Ctrl+V` directly into the field does the same.
-- **#COATS** starts at 0 on every load and is never remembered.
+- **#COATS** starts at 1 on every load and is never remembered.
 - Area and display settings persist in `localStorage`. Constants only persist once you press
   **Save constants**; unsaved edits are dropped on reload, and **Reset to defaults** restores the
-  Onshape values, forgets the saved set and zeroes coats.
+  Onshape values, forgets the saved set and puts coats back to 1.
 
 ## Formulas
 

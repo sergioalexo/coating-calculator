@@ -18,11 +18,12 @@ import { useSavedState } from "@/lib/useSavedState";
 import { useStickyState } from "@/lib/useStickyState";
 
 const DECIMAL_OPTIONS = [2, 3, 4, 6];
+const DEFAULT_COATS = 1;
 
 export default function Page() {
   const [sqin, setSqin] = useStickyState<number>("pc.sqin", 1000);
-  // Coats is per job: it starts at 0 on every load and is never persisted.
-  const [coats, setCoats] = useState(0);
+  // Coats is per job: it starts at 1 on every load and is never persisted.
+  const [coats, setCoats] = useState(DEFAULT_COATS);
   const [decimals, setDecimals] = useStickyState<number>("pc.decimals", 4);
   const [showVars, setShowVars] = useStickyState<boolean>("pc.showVars", false);
   // Constants only survive a reload once explicitly saved; otherwise they snap back to Onshape defaults.
@@ -196,7 +197,7 @@ export default function Page() {
             onSave={constantsState.save}
             onReset={() => {
               constantsState.reset();
-              setCoats(0);
+              setCoats(DEFAULT_COATS);
             }}
             dirty={constantsState.dirty}
             isDefault={constantsState.isDefault}

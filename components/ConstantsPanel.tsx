@@ -8,7 +8,7 @@ type Props = {
   onChange: (c: Constants) => void;
   /** Persist the current constants so they survive a reload. */
   onSave: () => void;
-  /** Back to Onshape defaults (and forget any saved set); also zeroes coats. */
+  /** Back to Onshape defaults (and forget any saved set); also puts coats back to 1. */
   onReset: () => void;
   /** Current constants differ from what is saved (or from defaults if nothing is saved). */
   dirty: boolean;
@@ -158,7 +158,7 @@ export default function ConstantsPanel({
             <button
               type="button"
               onClick={onReset}
-              disabled={isDefault && !hasSaved && coats === 0}
+              disabled={isDefault && !hasSaved && coats === 1}
               className="rounded-lg border border-line bg-raised px-3 py-1.5 text-xs text-fg-faint transition-colors hover:bg-raised-2 hover:text-fg disabled:cursor-default disabled:opacity-50 disabled:hover:bg-raised disabled:hover:text-fg-faint"
             >
               Reset to defaults
