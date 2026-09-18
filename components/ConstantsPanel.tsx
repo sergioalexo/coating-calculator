@@ -1,11 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Constants, DEFAULT_CONSTANTS, deriveCover, effectiveCover } from "@/lib/calc";
+import { Constants, deriveCover, effectiveCover } from "@/lib/calc";
 
 type Props = {
   constants: Constants;
   onChange: (c: Constants) => void;
+  /** Persist the current constants so they survive a reload. */
+  onSave: () => void;
+  /** Back to Onshape defaults (and forget any saved set); also zeroes coats. */
+  onReset: () => void;
+  /** Current constants differ from what is saved (or from defaults if nothing is saved). */
+  dirty: boolean;
+  isDefault: boolean;
+  hasSaved: boolean;
   coats: number;
   onCoatsChange: (n: number) => void;
 };
@@ -23,7 +31,17 @@ const FIELDS: { key: keyof Constants; label: string; desc: string; step?: number
   { key: "RESYSTA_STAIN_GAL", label: "Resysta stain (gal)", desc: "sqft per US gallon", step: 10 },
 ];
 
-export default function ConstantsPanel({ constants, onChange, coats, onCoatsChange }: Props) {
+export default function ConstantsPanel({
+  constants,
+  onChange,
+  onSave,
+  onReset,
+  dirty,
+  isDefault,
+  hasSaved,
+  coats,
+  onCoatsChange,
+}: Props) {
   const [open, setOpen] = useState(false);
   const set = (key: keyof Constants, value: number | boolean) =>
     onChange({ ...constants, [key]: value });
@@ -39,10 +57,21 @@ export default function ConstantsPanel({ constants, onChange, coats, onCoatsChan
       >
         <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
         <h2 className="flex-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-fg-muted">Constants</h2>
-        <span className="text-[11px] text-fg-dim">
-          <span className="font-mono">{coats}</span> coat{coats === 1 ? "" : "s"}
-          <span className="mx-1.5 text-fg-dim/50">·</span>
-          coverage <span className="font-mono">{effectiveCover(constants).toFixed(3)}</span> sqft/lb
+        <span className="flex items-center gap-1.5 text-[11px] text-fg-dim">
+          {dirty ? (
+            <span className="rounded-sm bg-amber-500/15 px-1 py-px text-[10px] font-semibold text-amber-700 dark:text-amber-300">
+              unsaved
+            </span>
+          ) : !isDefault && hasSaved ? (
+            <span className="rounded-sm bg-raised px-1 py-px text-[10px] font-semibold text-fg-faint">
+              custom
+            </span>
+          ) : null}
+          <span>
+            <span className="font-mono">{coats}</span> coat{coats === 1 ? "" : "s"}
+            <span className="mx-1.5 text-fg-dim/50">·</span>
+            coverage <span className="font-mono">{effectiveCover(constants).toFixed(3)}</span> sqft/lb
+          </span>
         </span>
         <svg
           viewBox="0 0 24 24"
@@ -117,13 +146,27 @@ export default function ConstantsPanel({ constants, onChange, coats, onCoatsChan
             </span>
           </label>
 
-          <button
-            type="button"
-            onClick={() => onChange(DEFAULT_CONSTANTS)}
-            className="mt-4 rounded-lg border border-line bg-raised px-3 py-1.5 text-xs text-fg-faint transition-colors hover:bg-raised-2 hover:text-fg"
-          >
-            Reset to Onshape defaults
-          </button>
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={onSave}
+              disabled={!dirty}
+              className="rounded-lg border border-accent/50 bg-accent/15 px-3 py-1.5 text-xs font-semibold text-accent-strong transition-colors hover:border-accent hover:bg-accent/25 hover:text-fg disabled:cursor-default disabled:border-line disabled:bg-raised disabled:text-fg-dim"
+            >
+              {!dirty && hasSaved ? "Saved" : "Save constants"}
+            </button>
+            <button
+              type="button"
+              onClick={onReset}
+              disabled={isDefault && !hasSaved && coats === 0}
+              className="rounded-lg border border-line bg-raised px-3 py-1.5 text-xs text-fg-faint transition-colors hover:bg-raised-2 hover:text-fg disabled:cursor-default disabled:opacity-50 disabled:hover:bg-raised disabled:hover:text-fg-faint"
+            >
+              Reset to defaults
+            </button>
+            <span className="text-[10px] text-fg-dim">
+              Unsaved changes and coats are dropped on reload.
+            </span>
+          </div>
         </div>
       ) : null}
     </section>

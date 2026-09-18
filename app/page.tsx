@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import AreaInput from "@/components/AreaInput";
 import ConstantsPanel from "@/components/ConstantsPanel";
 import CopyButton from "@/components/CopyButton";
@@ -14,16 +14,20 @@ import {
   SQ_IN_PER_SQ_FT,
   calculate,
 } from "@/lib/calc";
+import { useSavedState } from "@/lib/useSavedState";
 import { useStickyState } from "@/lib/useStickyState";
 
 const DECIMAL_OPTIONS = [2, 3, 4, 6];
 
 export default function Page() {
   const [sqin, setSqin] = useStickyState<number>("pc.sqin", 1000);
-  const [coats, setCoats] = useStickyState<number>("pc.coats", 1);
+  // Coats is per job: it starts at 0 on every load and is never persisted.
+  const [coats, setCoats] = useState(0);
   const [decimals, setDecimals] = useStickyState<number>("pc.decimals", 4);
   const [showVars, setShowVars] = useStickyState<boolean>("pc.showVars", false);
-  const [constants, setConstants] = useStickyState<Constants>("pc.constants", DEFAULT_CONSTANTS);
+  // Constants only survive a reload once explicitly saved; otherwise they snap back to Onshape defaults.
+  const constantsState = useSavedState<Constants>("pc.constants.saved", DEFAULT_CONSTANTS);
+  const constants = constantsState.value;
 
   const sqft = sqin / SQ_IN_PER_SQ_FT;
   const r = useMemo(() => calculate(sqft, coats, constants), [sqft, coats, constants]);
@@ -188,7 +192,15 @@ export default function Page() {
 
           <ConstantsPanel
             constants={constants}
-            onChange={setConstants}
+            onChange={constantsState.setValue}
+            onSave={constantsState.save}
+            onReset={() => {
+              constantsState.reset();
+              setCoats(0);
+            }}
+            dirty={constantsState.dirty}
+            isDefault={constantsState.isDefault}
+            hasSaved={constantsState.hasSaved}
             coats={coats}
             onCoatsChange={setCoats}
           />
