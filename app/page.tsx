@@ -33,7 +33,7 @@ export default function Page() {
 
   const stainGroups = [
     {
-      label: "Stain required",
+      label: "Cutek Clearcoat",
       emphasis: true,
       items: [
         {
