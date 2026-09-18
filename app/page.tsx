@@ -46,18 +46,13 @@ export default function Page() {
     },
     {
       label: "Cutek Colortone",
+      emphasis: true,
       items: [
-        {
-          name: "MILLIETERS_OF_CUTEK_COLORTONE_REQUIRED",
-          value: f(r.MILLIETERS_OF_CUTEK_COLORTONE_REQUIRED),
-          unit: "ml",
-          formula: `#GALLONS_OF_STAIN_REQUIRED*${constants.CUTEK_ML_PER_GAL}`,
-        },
         {
           name: "LITTERS_OF_CUTEK_COLORTONE_REQUIRED",
           value: f(r.LITTERS_OF_CUTEK_COLORTONE_REQUIRED),
           unit: "L",
-          formula: "#MILLIETERS_OF_CUTEK_COLORTONE_REQUIRED/1000",
+          formula: `#GALLONS_OF_STAIN_REQUIRED*${constants.CUTEK_ML_PER_GAL}/1000`,
         },
       ],
     },
