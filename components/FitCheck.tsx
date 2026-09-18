@@ -1,21 +1,18 @@
 "use client";
 
-import { MaxSize, fitsEnvelope } from "@/lib/calc";
+import { MaxSize } from "@/lib/calc";
 import CopyButton from "./CopyButton";
 
 type Props = {
   /** Fixed equipment envelope — static, not user-editable. */
   max: MaxSize;
-  part: MaxSize;
-  onPartChange: (p: MaxSize) => void;
 };
 
 const KEYS: (keyof MaxSize)[] = ["W", "H", "L"];
 const KEY_LABELS: Record<keyof MaxSize, string> = { W: "Width", H: "Height", L: "Length" };
 
-export default function FitCheck({ max, part, onPartChange }: Props) {
-  const result = fitsEnvelope(part, max);
-
+/** The powder-coating envelope, read-only: three limits, each its own copy chip. */
+export default function FitCheck({ max }: Props) {
   return (
     <section className="rounded-xl border border-line bg-surface">
       <header className="flex items-center gap-2.5 border-b border-line px-3 py-2">
@@ -25,66 +22,28 @@ export default function FitCheck({ max, part, onPartChange }: Props) {
         </h2>
         <CopyButton
           value={`${max.W} x ${max.H} x ${max.L} in`}
-          label="Envelope"
+          label="Copy"
           title={`Copy ${max.W} x ${max.H} x ${max.L} in`}
         />
       </header>
 
-      <div className="grid gap-3 p-3 sm:grid-cols-2">
-        <div>
-          <div className="mb-1.5 text-[10px] uppercase tracking-wider text-fg-dim">
-            Envelope limits (in)
+      <div className="grid grid-cols-3 gap-1.5 p-1.5">
+        {KEYS.map((k) => (
+          <div
+            key={k}
+            className="flex items-center justify-between gap-2 rounded-lg px-2.5 py-1.5 transition-colors hover:bg-raised"
+          >
+            <span className="text-[13px] font-medium text-fg">{KEY_LABELS[k]}</span>
+            <CopyButton
+              variant="chip"
+              value={String(max[k])}
+              unit="in"
+              emphasis
+              title={`Copy ${KEY_LABELS[k].toLowerCase()} limit (${max[k]} in)`}
+            />
           </div>
-          <div className="grid grid-cols-3 gap-2">
-            {KEYS.map((k) => (
-              <div key={k}>
-                <span className="mb-0.5 block text-[10px] text-fg-faint">{KEY_LABELS[k]}</span>
-                <div className="rounded-lg border border-line/60 bg-raised px-2 py-1.5 font-mono text-[13px] tabular-nums text-fg-faint">
-                  {max[k]}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <div className="mb-1.5 text-[10px] uppercase tracking-wider text-fg-dim">
-            Your part (in)
-          </div>
-          <div className="grid grid-cols-3 gap-2">
-            {KEYS.map((k) => (
-              <label key={k} className="block">
-                <span className="mb-0.5 block text-[10px] text-fg-faint">{KEY_LABELS[k]}</span>
-                <input
-                  type="number"
-                  value={part[k] ? String(part[k]) : ""}
-                  placeholder="0"
-                  onChange={(e) => onPartChange({ ...part, [k]: parseFloat(e.target.value) || 0 })}
-                  className="w-full rounded-lg border border-line bg-field px-2 py-1.5 font-mono text-[13px] tabular-nums text-fg outline-none focus:border-violet-500/70"
-                />
-              </label>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
-
-      {result ? (
-        <div
-          className={`border-t px-3 py-1.5 text-[11px] font-medium ${
-            result.fits
-              ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
-              : "border-red-500/20 bg-red-500/10 text-red-700 dark:text-red-300"
-          }`}
-        >
-          {result.fits
-            ? "Fits — the part can be oriented inside the envelope."
-            : "Too large — no orientation fits the envelope."}
-        </div>
-      ) : (
-        <div className="border-t border-line px-3 py-1.5 text-[11px] text-fg-dim">
-          Enter part W / H / L to check the fit.
-        </div>
-      )}
     </section>
   );
 }

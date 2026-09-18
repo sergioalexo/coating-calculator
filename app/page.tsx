@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import AreaInput from "@/components/AreaInput";
 import ConstantsPanel from "@/components/ConstantsPanel";
 import CopyButton from "@/components/CopyButton";
@@ -11,7 +11,6 @@ import {
   Constants,
   DEFAULT_CONSTANTS,
   DEFAULT_MAX_SIZE,
-  MaxSize,
   SQ_IN_PER_SQ_FT,
   calculate,
 } from "@/lib/calc";
@@ -25,7 +24,6 @@ export default function Page() {
   const [decimals, setDecimals] = useStickyState<number>("pc.decimals", 4);
   const [showVars, setShowVars] = useStickyState<boolean>("pc.showVars", false);
   const [constants, setConstants] = useStickyState<Constants>("pc.constants", DEFAULT_CONSTANTS);
-  const [part, setPart] = useState<MaxSize>({ W: 0, H: 0, L: 0 });
 
   const sqft = sqin / SQ_IN_PER_SQ_FT;
   const r = useMemo(() => calculate(sqft, coats, constants), [sqft, coats, constants]);
@@ -195,7 +193,7 @@ export default function Page() {
             onCoatsChange={setCoats}
           />
 
-          <FitCheck max={DEFAULT_MAX_SIZE} part={part} onPartChange={setPart} />
+          <FitCheck max={DEFAULT_MAX_SIZE} />
         </div>
 
         {/* Powder, stain, oil and Resysta */}
