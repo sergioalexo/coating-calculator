@@ -90,12 +90,6 @@ export default function Page() {
           unit: "gal",
           formula: `(#SQFT/${constants.RESYSTA_PRIMER_GAL})*#COATS`,
         },
-        {
-          name: "RESYSTA_PRIMER_LITERS",
-          value: f(r.RESYSTA_PRIMER_LITERS),
-          unit: "L",
-          formula: "#TOTAL_OF_RESYSTA_PRIMER/1000",
-        },
       ],
     },
     {
@@ -113,12 +107,6 @@ export default function Page() {
           value: f(r.RESYSTA_STAIN_GALLONS),
           unit: "gal",
           formula: `(#SQFT/${constants.RESYSTA_STAIN_GAL})*#COATS`,
-        },
-        {
-          name: "RESYSTA_STAIN_LITERS",
-          value: f(r.RESYSTA_STAIN_LITERS),
-          unit: "L",
-          formula: "#TOTAL_OF_RESYSTA_STAIN/1000",
         },
       ],
     },
