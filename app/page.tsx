@@ -156,20 +156,20 @@ export default function Page() {
     <main className="mx-auto w-full max-w-[1500px] px-4 py-4">
       <header className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-baseline gap-3">
-          <h1 className="text-lg font-semibold tracking-tight text-white">
-            Coating <span className="text-sky-400">Calculator</span>
+          <h1 className="text-lg font-semibold tracking-tight text-fg">
+            Coating <span className="text-accent">Calculator</span>
           </h1>
-          <p className="hidden text-[11px] text-zinc-500 sm:block">
+          <p className="hidden text-[11px] text-fg-dim sm:block">
             Stain, oil, Resysta and powder quantities from total surface area.
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <label className="flex items-center gap-1.5 text-[11px] text-zinc-500">
+          <label className="flex items-center gap-1.5 text-[11px] text-fg-dim">
             Decimals
             <select
               value={decimals}
               onChange={(e) => setDecimals(Number(e.target.value))}
-              className="rounded-lg border border-white/10 bg-black/40 px-1.5 py-1 text-xs text-zinc-200 outline-none focus:border-sky-400/60"
+              className="rounded-lg border border-line bg-field px-1.5 py-1 text-xs text-fg outline-none focus:border-accent/60"
             >
               {DECIMAL_OPTIONS.map((d) => (
                 <option key={d} value={d}>
@@ -185,8 +185,8 @@ export default function Page() {
             title={showVars ? "Show plain labels" : "Show Onshape variable names"}
             className={`rounded-lg border px-2 py-1 font-mono text-[11px] transition-colors ${
               showVars
-                ? "border-sky-500/50 bg-sky-500/15 text-sky-300"
-                : "border-white/10 bg-white/5 text-zinc-500 hover:text-zinc-200"
+                ? "border-accent/50 bg-accent/15 text-accent"
+                : "border-line bg-raised text-fg-dim hover:text-fg"
             }`}
           >
             #name
@@ -271,14 +271,14 @@ export default function Page() {
         </div>
       </div>
 
-      <footer className="mt-3 flex items-center justify-between gap-3 px-1 text-[11px] text-zinc-600">
+      <footer className="mt-3 flex items-center justify-between gap-3 px-1 text-[11px] text-fg-dim">
         <span>
           Developed by{" "}
           <a
             href="https://sergioalexo.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-medium text-sky-400/90 underline-offset-4 transition-colors hover:text-sky-300 hover:underline"
+            className="font-medium text-accent underline-offset-4 transition-colors hover:text-accent-strong hover:underline"
           >
             Sergio Alexo
           </a>
@@ -287,7 +287,7 @@ export default function Page() {
           href="https://sergioalexo.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="transition-colors hover:text-zinc-300"
+          className="transition-colors hover:text-fg-muted"
         >
           sergioalexo.com
         </a>

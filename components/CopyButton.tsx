@@ -16,6 +16,17 @@ type Props = {
 
 type State = "idle" | "copied" | "failed";
 
+/** The unit tag on a chip, accent-coloured so the unit reads at a glance. */
+export function UnitTag({ unit, className = "" }: { unit: string; className?: string }) {
+  return (
+    <span
+      className={`inline-flex shrink-0 items-center rounded-sm bg-unit/15 px-1 py-px font-mono text-[11px] font-semibold leading-tight text-unit ${className}`}
+    >
+      {unit}
+    </span>
+  );
+}
+
 export default function CopyButton({
   value,
   label,
@@ -52,12 +63,12 @@ export default function CopyButton({
 
   const tone =
     state === "copied"
-      ? "border-emerald-500/60 bg-emerald-500/15 text-emerald-300"
+      ? "border-emerald-500/60 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
       : state === "failed"
-        ? "border-amber-500/60 bg-amber-500/15 text-amber-300"
+        ? "border-amber-500/60 bg-amber-500/15 text-amber-700 dark:text-amber-300"
         : variant === "chip"
-          ? "cursor-pointer border-white/10 bg-white/[0.04] text-zinc-100 hover:border-sky-400/60 hover:bg-sky-500/10 hover:text-white"
-          : "border-white/10 bg-white/5 text-zinc-400 hover:border-white/20 hover:bg-white/10 hover:text-zinc-100";
+          ? "cursor-pointer border-line bg-raised text-fg hover:border-accent/60 hover:bg-accent/10"
+          : "border-line bg-raised text-fg-faint hover:border-line-strong hover:bg-raised-2 hover:text-fg";
 
   return (
     <span className="relative inline-flex">
@@ -68,7 +79,7 @@ export default function CopyButton({
         aria-label={title ?? `Copy ${value}`}
         className={
           variant === "chip"
-            ? `inline-flex shrink-0 items-baseline gap-1 rounded-md border px-2 py-1 transition-colors ${tone} ${className}`
+            ? `inline-flex shrink-0 items-center gap-1.5 rounded-md border py-1 pl-2 pr-1.5 transition-colors ${tone} ${className}`
             : `inline-flex shrink-0 items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${tone} ${className}`
         }
       >
@@ -85,7 +96,7 @@ export default function CopyButton({
                 Copied
               </span>
             ) : unit ? (
-              <span className="text-[10px] text-zinc-500">{unit}</span>
+              <UnitTag unit={unit} />
             ) : null}
           </>
         ) : (
@@ -97,9 +108,9 @@ export default function CopyButton({
       </button>
 
       {state === "failed" ? (
-        <span className="absolute right-0 top-full z-20 mt-1 w-60 rounded-lg border border-amber-500/40 bg-zinc-900 p-2 shadow-xl">
-          <span className="mb-1 block text-[10px] leading-tight text-amber-300">
-            Clipboard blocked by the browser — press Ctrl+C to copy:
+        <span className="absolute right-0 top-full z-20 mt-1 w-60 rounded-lg border border-amber-500/40 bg-popover p-2 shadow-xl">
+          <span className="mb-1 block text-[10px] leading-tight text-amber-700 dark:text-amber-300">
+            Clipboard blocked by the browser. Press Ctrl+C to copy:
           </span>
           <textarea
             ref={fallbackRef}
@@ -108,7 +119,7 @@ export default function CopyButton({
             value={value}
             onBlur={() => setState("idle")}
             onKeyDown={(e) => { if (e.key === "Escape") setState("idle"); }}
-            className="w-full resize-none rounded border border-white/10 bg-black/50 px-2 py-1 font-mono text-[11px] text-zinc-100 outline-none"
+            className="w-full resize-none rounded border border-line bg-field px-2 py-1 font-mono text-[11px] text-fg outline-none"
           />
         </span>
       ) : null}

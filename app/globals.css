@@ -1,11 +1,71 @@
 @import "tailwindcss";
 
-@theme {
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+/* Semantic palette. Light is the default; the dark set kicks in from the
+   browser / OS preference so the app follows the system theme. */
+:root {
+  color-scheme: light dark;
+
+  --canvas: #f4f4f5;
+  --surface: #ffffff;
+  --popover: #ffffff;
+  --field: #fafafa;
+  --raised: rgb(0 0 0 / 0.04);
+  --raised-2: rgb(0 0 0 / 0.08);
+  --line: rgb(0 0 0 / 0.12);
+  --line-strong: rgb(0 0 0 / 0.22);
+
+  --fg: #18181b;
+  --fg-muted: #3f3f46;
+  --fg-faint: #52525b;
+  --fg-dim: #71717a;
+
+  --accent: #0284c7;
+  --accent-strong: #0369a1;
+  --unit: #b45309;
+  --glow: rgb(2 132 199 / 0.12);
 }
 
-html {
-  color-scheme: dark;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --canvas: #09090b;
+    --surface: rgb(24 24 27 / 0.5);
+    --popover: #18181b;
+    --field: rgb(0 0 0 / 0.4);
+    --raised: rgb(255 255 255 / 0.04);
+    --raised-2: rgb(255 255 255 / 0.1);
+    --line: rgb(255 255 255 / 0.1);
+    --line-strong: rgb(255 255 255 / 0.2);
+
+    --fg: #f4f4f5;
+    --fg-muted: #d4d4d8;
+    --fg-faint: #a1a1aa;
+    --fg-dim: #71717a;
+
+    --accent: #38bdf8;
+    --accent-strong: #7dd3fc;
+    --unit: #fcd34d;
+    --glow: rgb(56 189 248 / 0.1);
+  }
+}
+
+@theme inline {
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-popover: var(--popover);
+  --color-field: var(--field);
+  --color-raised: var(--raised);
+  --color-raised-2: var(--raised-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-faint: var(--fg-faint);
+  --color-fg-dim: var(--fg-dim);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-unit: var(--unit);
 }
 
 /* Strip spinners so numeric fields stay clean */
@@ -19,5 +79,5 @@ input[type="number"] {
 }
 
 ::selection {
-  background: rgb(56 189 248 / 0.3);
+  background: color-mix(in oklab, var(--accent) 30%, transparent);
 }

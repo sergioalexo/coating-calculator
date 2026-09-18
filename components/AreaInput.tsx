@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import CopyButton from "./CopyButton";
+import CopyButton, { UnitTag } from "./CopyButton";
 import { readText } from "@/lib/clipboard";
 import { parseNumeric, SQ_IN_PER_SQ_FT } from "@/lib/calc";
 
@@ -77,8 +77,8 @@ export default function AreaInput({ sqin, onChange, decimals }: Props) {
   );
 
   return (
-    <section className="rounded-xl border border-sky-500/25 bg-gradient-to-b from-sky-500/[0.09] to-transparent p-3">
-      <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-sky-300">
+    <section className="rounded-xl border border-accent/25 bg-gradient-to-b from-accent/[0.09] to-transparent p-3">
+      <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
         Total surface area
       </h2>
 
@@ -107,7 +107,7 @@ export default function AreaInput({ sqin, onChange, decimals }: Props) {
         />
       </div>
 
-      <p className="mt-1.5 h-3.5 text-[10px] text-sky-300/80">{hint ?? ""}</p>
+      <p className="mt-1.5 h-3.5 text-[10px] text-accent/80">{hint ?? ""}</p>
     </section>
   );
 }
@@ -136,9 +136,9 @@ function Field({
   const unitName = unit === "in" ? "square inches" : "square feet";
   return (
     <div className="flex gap-2">
-      <div className="min-w-0 flex-1 rounded-lg border border-white/10 bg-black/30 px-2.5 py-1.5 focus-within:border-sky-400/70">
+      <div className="min-w-0 flex-1 rounded-lg border border-line bg-field px-2.5 py-1.5 focus-within:border-accent/70">
         <div className="mb-0.5 flex items-center justify-between gap-2">
-          <span className="text-[10px] uppercase tracking-wider text-zinc-500">{caption}</span>
+          <span className="text-[10px] uppercase tracking-wider text-fg-dim">{caption}</span>
           <CopyButton value={copyValue} title={`Copy ${copyValue} ${suffix}`} />
         </div>
         <div className="flex items-baseline gap-1">
@@ -153,9 +153,9 @@ function Field({
             }}
             placeholder="0"
             aria-label={`Total surface area in ${unitName}`}
-            className="w-full min-w-0 bg-transparent font-mono text-lg tabular-nums text-white outline-none"
+            className="w-full min-w-0 bg-transparent font-mono text-lg tabular-nums text-fg outline-none"
           />
-          <span className="shrink-0 text-[11px] text-zinc-500">{suffix}</span>
+          <UnitTag unit={suffix} className="self-center" />
         </div>
       </div>
 
@@ -164,7 +164,7 @@ function Field({
         onClick={onPasteClick}
         title={`Paste ${unitName} from clipboard`}
         aria-label={`Paste ${unitName} from clipboard`}
-        className="flex shrink-0 items-center gap-1.5 rounded-lg border border-sky-500/40 bg-sky-500/15 px-3 text-xs font-semibold text-sky-200 transition-colors hover:border-sky-400 hover:bg-sky-500/25 hover:text-white"
+        className="flex shrink-0 items-center gap-1.5 rounded-lg border border-accent/40 bg-accent/15 px-3 text-xs font-semibold text-accent-strong transition-colors hover:border-accent hover:bg-accent/25 hover:text-fg"
       >
         <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
           <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />

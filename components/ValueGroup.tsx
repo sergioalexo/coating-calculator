@@ -57,14 +57,14 @@ export default function ValueGroup({ label, items, emphasis, showVars = false }:
         {items.map((item) => (
           <div
             key={item.name}
-            className="flex items-center justify-between gap-3 rounded-lg px-2.5 py-1.5 transition-colors hover:bg-white/[0.04]"
+            className="flex items-center justify-between gap-3 rounded-lg px-2.5 py-1.5 transition-colors hover:bg-raised"
           >
             <div className="min-w-0 flex-1">
-              <div className={`truncate font-mono text-[11px] ${emphasis ? "text-zinc-200" : "text-zinc-400"}`}>
+              <div className={`truncate font-mono text-[11px] ${emphasis ? "text-fg" : "text-fg-faint"}`}>
                 #{item.name}
               </div>
               {item.formula ? (
-                <div className="truncate font-mono text-[10px] text-zinc-600">{item.formula}</div>
+                <div className="truncate font-mono text-[10px] text-fg-dim">{item.formula}</div>
               ) : null}
             </div>
             <CopyButton
@@ -81,9 +81,9 @@ export default function ValueGroup({ label, items, emphasis, showVars = false }:
   }
 
   return (
-    <div className="flex items-center justify-between gap-3 rounded-lg px-2.5 py-1.5 transition-colors hover:bg-white/[0.04]">
+    <div className="flex items-center justify-between gap-3 rounded-lg px-2.5 py-1.5 transition-colors hover:bg-raised">
       <div
-        className={`min-w-0 shrink truncate text-[13px] ${emphasis ? "font-medium text-zinc-100" : "text-zinc-300"}`}
+        className={`min-w-0 shrink truncate text-[13px] ${emphasis ? "font-medium text-fg" : "text-fg-muted"}`}
         title={items.map((i) => `#${i.name}`).join("  ")}
       >
         {label}

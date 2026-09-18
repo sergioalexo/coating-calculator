@@ -31,17 +31,17 @@ export default function ConstantsPanel({ constants, onChange, coats, onCoatsChan
   const derived = deriveCover(constants);
 
   return (
-    <section className="rounded-xl border border-white/10 bg-zinc-900/50">
+    <section className="rounded-xl border border-line bg-surface">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-center gap-2.5 px-3 py-2 text-left"
       >
         <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-        <h2 className="flex-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-300">Constants</h2>
-        <span className="text-[11px] text-zinc-500">
+        <h2 className="flex-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-fg-muted">Constants</h2>
+        <span className="text-[11px] text-fg-dim">
           <span className="font-mono">{coats}</span> coat{coats === 1 ? "" : "s"}
-          <span className="mx-1.5 text-zinc-700">·</span>
+          <span className="mx-1.5 text-fg-dim/50">·</span>
           coverage <span className="font-mono">{effectiveCover(constants).toFixed(3)}</span> sqft/lb
         </span>
         <svg
@@ -53,7 +53,7 @@ export default function ConstantsPanel({ constants, onChange, coats, onCoatsChan
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`text-zinc-500 transition-transform ${open ? "rotate-180" : ""}`}
+          className={`text-fg-dim transition-transform ${open ? "rotate-180" : ""}`}
           aria-hidden
         >
           <path d="m6 9 6 6 6-6" />
@@ -61,50 +61,50 @@ export default function ConstantsPanel({ constants, onChange, coats, onCoatsChan
       </button>
 
       {open ? (
-        <div className="border-t border-white/10 p-3">
+        <div className="border-t border-line p-3">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <label className="block">
-              <span className="mb-1 block text-[11px] text-zinc-300">Coats</span>
+              <span className="mb-1 block text-[11px] text-fg-muted">Coats</span>
               <input
                 type="number"
                 min={1}
                 step={1}
                 value={String(coats)}
                 onChange={(e) => onCoatsChange(Math.max(0, parseFloat(e.target.value) || 0))}
-                className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 font-mono text-sm tabular-nums text-zinc-100 outline-none focus:border-amber-400/60"
+                className="w-full rounded-lg border border-line bg-field px-3 py-2 font-mono text-sm tabular-nums text-fg outline-none focus:border-amber-500/70"
               />
-              <span className="mt-1 block text-[10px] text-zinc-600">#COATS — coats applied</span>
+              <span className="mt-1 block text-[10px] text-fg-dim">#COATS — coats applied</span>
             </label>
 
             {FIELDS.map((f) => (
               <label key={f.key} className="block">
-                <span className="mb-1 block text-[11px] text-zinc-300">{f.label}</span>
+                <span className="mb-1 block text-[11px] text-fg-muted">{f.label}</span>
                 <input
                   type="number"
                   step={f.step ?? 1}
                   value={String(constants[f.key] as number)}
                   onChange={(e) => set(f.key, parseFloat(e.target.value) || 0)}
-                  className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 font-mono text-sm tabular-nums text-zinc-100 outline-none focus:border-amber-400/60"
+                  className="w-full rounded-lg border border-line bg-field px-3 py-2 font-mono text-sm tabular-nums text-fg outline-none focus:border-amber-500/70"
                 />
-                <span className="mt-1 block text-[10px] text-zinc-600">{f.desc}</span>
+                <span className="mt-1 block text-[10px] text-fg-dim">{f.desc}</span>
               </label>
             ))}
 
             <label className="block">
-              <span className="mb-1 block text-[11px] text-zinc-300">Powder coverage</span>
+              <span className="mb-1 block text-[11px] text-fg-muted">Powder coverage</span>
               <input
                 type="number"
                 step={0.001}
                 disabled={constants.coverAuto}
                 value={constants.coverAuto ? derived.toFixed(4) : String(constants.COVER)}
                 onChange={(e) => set("COVER", parseFloat(e.target.value) || 0)}
-                className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 font-mono text-sm tabular-nums text-zinc-100 outline-none focus:border-amber-400/60 disabled:text-zinc-500"
+                className="w-full rounded-lg border border-line bg-field px-3 py-2 font-mono text-sm tabular-nums text-fg outline-none focus:border-amber-500/70 disabled:text-fg-dim"
               />
-              <span className="mt-1 block text-[10px] text-zinc-600">#COVER — sqft per lb</span>
+              <span className="mt-1 block text-[10px] text-fg-dim">#COVER — sqft per lb</span>
             </label>
           </div>
 
-          <label className="mt-4 flex cursor-pointer flex-wrap items-center gap-2 text-[11px] text-zinc-400">
+          <label className="mt-4 flex cursor-pointer flex-wrap items-center gap-2 text-[11px] text-fg-faint">
             <input
               type="checkbox"
               checked={constants.coverAuto}
@@ -112,7 +112,7 @@ export default function ConstantsPanel({ constants, onChange, coats, onCoatsChan
               className="h-3.5 w-3.5 accent-amber-500"
             />
             Derive coverage from gravity / thickness / efficiency
-            <span className="font-mono text-zinc-600">
+            <span className="font-mono text-fg-dim">
               = 192.3 / (GRAV x THICKNESS) x EFFIC = {derived.toFixed(4)}
             </span>
           </label>
@@ -120,7 +120,7 @@ export default function ConstantsPanel({ constants, onChange, coats, onCoatsChan
           <button
             type="button"
             onClick={() => onChange(DEFAULT_CONSTANTS)}
-            className="mt-4 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100"
+            className="mt-4 rounded-lg border border-line bg-raised px-3 py-1.5 text-xs text-fg-faint transition-colors hover:bg-raised-2 hover:text-fg"
           >
             Reset to Onshape defaults
           </button>
