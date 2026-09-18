@@ -50,6 +50,11 @@ THICKNESS 2.5 mil, Resysta primer 0.1585 sqft/ml (600 sqft/gal), Resysta stain 0
 
 Developed by [Sergio Alexo](https://sergioalexo.com)
 
+## Contact
+
+Collaborations, suggestions for improvements and general inquiries:
+[mgmt@sergioalexo.com](mailto:mgmt@sergioalexo.com)
+
 ## License
 
 Copyright (C) 2026 Sergio Alexo.

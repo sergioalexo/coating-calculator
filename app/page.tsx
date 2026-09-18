@@ -283,14 +283,23 @@ export default function Page() {
             Sergio Alexo
           </a>
         </span>
-        <a
-          href="https://sergioalexo.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="transition-colors hover:text-fg-muted"
-        >
-          sergioalexo.com
-        </a>
+        <span className="flex flex-wrap items-center justify-end gap-x-3 gap-y-1">
+          <a
+            href="mailto:mgmt@sergioalexo.com?subject=Coating%20Calculator"
+            title="Collaborations, suggestions and general inquiries"
+            className="transition-colors hover:text-fg-muted"
+          >
+            mgmt@sergioalexo.com
+          </a>
+          <a
+            href="https://sergioalexo.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-fg-muted"
+          >
+            sergioalexo.com
+          </a>
+        </span>
       </footer>
     </main>
   );
